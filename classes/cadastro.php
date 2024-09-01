@@ -19,9 +19,13 @@
         }
 
         function cadastrar(){
-            $sql = "INSERT INTO `tbclientes`(`idCli`, `nomeCli`, `emailCli`, `senhaCli`, `cpf`) VALUES (NULL,'$this->nome','$this->email','$this->senha','$this->cpf')";
-            $this->conn->execQuery($sql);
+            $sql = "INSERT INTO `tbclientes`(`idCli`, `nomeCli`, `emailCli`, `senhaCli`, `cpf`) VALUES (NULL, ?, ?, ?, ?)";
+            $stmt = $this->conn->getConn()->prepare($sql);
+            $stmt->bind_param("ssss", $this->nome, $this->email, $this->senha, $this->cpf);
+            $stmt->execute();
+            $stmt->close();
             header("Location: login.php");
+            exit;
         }
 
         function verificarEmail(){

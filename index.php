@@ -19,7 +19,9 @@ $conn->conectar();
         <form action="carrinho.php" method="post"><input type="submit" value="carrinho"></form>
         <?php 
             if((isset($_SESSION['logado'])) && ($_SESSION['logado'] == 1) ){
-                ?> <form action="sair.php" method="post"> <input type="submit" value="deslogar"> </form> <?php
+                ?> <form action="sair.php" method="post"> <input type="submit" value="deslogar"> </form>
+                    <form action="alterarConta.php"> <input type="submit" value="conta"> </form>
+                <?php
             }
         ?>
         <?php

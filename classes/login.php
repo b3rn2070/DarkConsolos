@@ -19,14 +19,16 @@
         }
 
         function logar(){
-            $sql = "SELECT * FROM `tbclientes` WHERE `emailCli` = '$this->email';";
-            $resultado = $this->conn->execQuery($sql);
+            $sql = "SELECT * FROM `tbclientes` WHERE `emailCli` = ?";
+            $stmt = $this->conn->getConn()->prepare($sql);
+            $stmt->bind_param("s", $this->email);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
             if($linha = mysqli_fetch_array($resultado)) {
                 if(password_verify($this->senha, $linha['senhaCli'])){
                     $this->nome = $linha["nomeCli"];
                     $this->id = $linha["idCli"];
-                    $this->logado = 1;
     
                     $_SESSION["logado"] = 1;
                     $_SESSION['idCliente'] = $linha['idCli'];    
@@ -35,22 +37,6 @@
             } else {
                 echo "Usuário e/ou senha inválidos";
             }
-        }
-
-        function getNome(){
-            return $this->nome;
-        }
-
-        function getId(){
-            return $this->id;
-        }
-
-        function isLogado(){
-            return $this->logado;
-        }
-
-        function deslogar(){
-            $this->logado = 0;
         }
     }
 ?>
