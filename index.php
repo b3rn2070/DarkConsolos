@@ -25,7 +25,7 @@ $conn->conectar();
         <?php
         // produtos em promocao
 
-        $sql = "SELECT * FROM `tbproduto` WHERE `ativo` = 1 AND `promocao` = 1";
+        $sql = "SELECT * FROM `tbproduto` WHERE `ativo` = 1 AND `promocao` = 1 AND `qnt` > 0";
         $resultado = $conn->execQuery($sql);
 
         if ($resultado) {
@@ -39,7 +39,7 @@ $conn->conectar();
     <div>
         <?php
         // produtos sem promoçao 
-        $sql = "SELECT * FROM `tbproduto` WHERE `ativo` = 1 AND `promocao` = 0";
+        $sql = "SELECT * FROM `tbproduto` WHERE `ativo` = 1 AND `promocao` = 0 AND `qnt` > 0;";
         $resultado = $conn->execQuery($sql);
         while ($linha = mysqli_fetch_array($resultado)) {
             echo "<a href=\"mostrarProduto.php?idProd=" . $linha["idProd"] . "\"><img src='images/" . $linha["fotoProd"] . "'></a>";

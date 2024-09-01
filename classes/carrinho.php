@@ -66,20 +66,18 @@ class Carrinho
             $sql = "SELECT * FROM tbProduto WHERE `idProd`= '$idProduto'";
             $resultado = $this->conn->execQuery($sql);
 
-            if($linha = mysqli_fetch_array($resultado)){
+            while ($linha = mysqli_fetch_array($resultado)) {
                 $qntEstoque = $linha["qnt"];
 
-                if($qnt > $qntEstoque){
-                    echo "<script>confirm('Quantidade insuficiente do produto: ".$linha["nomeProd"]." (Em estoque: ". $qntEstoque ." unidades)');</script>";
-                    return;
-                }
-            }
-
-            while ($linha = mysqli_fetch_array($resultado)) {
                 if ($linha["promocao"] == "s") {
                     $preco = $linha["precoProm"];
                 } else {
                     $preco = $linha["precoVenda"];
+                }
+
+                if($qnt > $qntEstoque){
+                    echo "<script>confirm('Quantidade insuficiente do produto: ".$linha["nomeProd"]." (Em estoque: ". $qntEstoque ." unidades)');</script>";
+                    return;
                 }
 
                 $sql2 = "INSERT INTO `tbpedidos`(`idPedido`, `idProduto`, `idCli`, `data`, `precoVenda`, `qnt`) VALUES (NULL, '$idProduto', '$idCliente', current_timestamp(),'$preco','$qnt');";
@@ -95,6 +93,7 @@ class Carrinho
             }
         }
         $this->limparCarrinho();
+        header("Location: index.php");
     }
 
     function listarCarrinho()
