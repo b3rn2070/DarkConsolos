@@ -33,10 +33,11 @@
                     $_SESSION["logado"] = 1;
                     $_SESSION['idCliente'] = $linha['idCli'];    
                     header("Location: index.php");
-                } 
-            } else {
-                echo "Usuário e/ou senha inválidos";
-            }
+                    return true;
+                } else {
+                    return false;
+                }
+            } 
         }
 
         

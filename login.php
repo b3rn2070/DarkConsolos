@@ -30,6 +30,10 @@ if (isset($_SESSION["logado"]) && $_SESSION["logado"] == 1) {
 
             $login = new Login($email, $senha);
             $login->logar();
+
+            if($login->logar() == false){
+                echo "<script>confirm('Usuário e/ou senha inválidos');</script>";
+            }
         }
         ?>
 </center>

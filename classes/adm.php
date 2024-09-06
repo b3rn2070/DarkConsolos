@@ -25,10 +25,12 @@ class ADM {
                 echo $_SESSION['logadoAdm'];
                 die();
 
+                return true;
                 header("Location: index.php");
-            } 
-        } else {
-            echo "<h4>Usuário e/ou senha inválidos e/ou você não possui cadastro </h4>";
+                
+            } else {
+                return false;
+            }
         }
     }
 

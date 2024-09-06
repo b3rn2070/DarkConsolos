@@ -22,7 +22,7 @@ $conn = new Conexao("localhost", "root", "", "dark_consolos");
             <p><input type="text" placeholder="nome" name="nome" id="input-nome" required></p>
             <p><input type="text" placeholder="email" name="email" required></p>
             <p><input type="password" placeholder="senha" name="senha" id="input-senha" required></p>
-            <p><input type="text" placeholder="cpf" name="cpf" id="input-cpf" required></p>
+            <p><input type="text" placeholder="cpf" name="cpf" id="input-cpf" maxlength="11" required></p>
             <p><input type="submit" value="cadastrar"></p>
         </form>
     </center>

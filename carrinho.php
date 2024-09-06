@@ -43,7 +43,18 @@ $conn->conectar();
                 $carrinho->removeProduto($idProduto);
             }
             else if($acao === "comprar"){
-                $carrinho->comprar();
+                $compra = $carrinho->comprar();
+
+                if($compra == true){
+                    ?> <script>
+                    const usrResp2 = confirm("Compra realizada com Sucesso!");
+
+                    if(usrResp2){
+                        window.location.href = "index.php";
+                        <?php $carrinho->limparCarrinho(); ?>
+                    }
+                    </script> <?php
+                }
             }
         }
 

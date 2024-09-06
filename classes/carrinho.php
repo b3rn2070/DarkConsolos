@@ -84,16 +84,14 @@ class Carrinho
                 $sql3 = "UPDATE `tbproduto` SET `qnt`= `qnt` - $qnt WHERE `idProd` = '$idProduto';";
                 $resultadoCompra = $this->conn->execQuery($sql2);
                 $atualizarEstoque = $this->conn->execQuery($sql3);
-
-                if ($resultadoCompra && $atualizarEstoque) {
-                    echo "<script>alert('Compra realizada com sucesso!');</script>";
-                } else {
-                    echo "<script>alert('Erro ao realizar compra!');</script>";
-                }
             }
         }
-        $this->limparCarrinho();
-        header("Location: index.php");
+        if ($resultadoCompra && $atualizarEstoque) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     function listarCarrinho()
@@ -115,8 +113,7 @@ class Carrinho
             echo "</tr>";
             echo "</thead>";
             echo "<tbody align='center  '>";
-
-
+        
             $total = 0;
 
             foreach ($this->produtos as $id => $qnt) {

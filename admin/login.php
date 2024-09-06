@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION["logadoAdm"]) && $_SESSION["logadoAdm"] == 1) {
     header("Location: index.php");
-}
+} else {
 require_once '../classes/conexao.php';
 require_once '../classes/adm.php';
 $conn = new Conexao("localhost", "root", "", "dark_consolos"); 
@@ -29,8 +29,14 @@ $conn = new Conexao("localhost", "root", "", "dark_consolos");
             $senha = $_POST['senha'];
             
             $login = new ADM();
-            $login->logar($email, $senha);
+
+            if($login->logar($email, $senha) == false){
+                echo "<script>confirm('Usuário e/ou senha inválidos e/ou você não possui cadastro');</script> </h4>";
+            } else {
+                $login->logar($email, $senha);
+            }
         }
+}
     ?>
 </center>
 </body>
