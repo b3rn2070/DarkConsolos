@@ -122,7 +122,7 @@ class Carrinho
 
                 while ($linha = mysqli_fetch_array($resultado)) {
                     echo "<tr>";
-                    echo "<td> <img src='images/" . $linha['fotoProd'] . "'> </td>";
+                    echo "<td> <img width='40%' src='images/" . $linha['fotoProd'] . "'> </td>";
                     echo "<td> " . $linha['nomeProd'] . " </td>";
                     echo "<td> " . $qnt . " </td>";
                     if ($linha['promocao'] == 1) {

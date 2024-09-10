@@ -14,7 +14,7 @@ class Relatorio
     function relatorioProd($data)
     {
         echo "<table border='1' align='center' width='80%'>";
-        echo "<thead>";
+        echo "<thead align='center'>";
         echo "<tr>";
         echo "<th>Foto</th>";
         echo "<th>Nome do Produto</th>";
@@ -48,7 +48,7 @@ class Relatorio
                 $totalVendas += $total;
 
                 echo "<tr>";
-                echo "<td><img height='50%' src='../images/".$foto."' alt='foto produto'></td>";
+                echo "<td><img width='50%' src='../images/".$foto."' alt='foto produto'></td>";
                 echo "<td>" . $nomeProd . "</td>";
                 echo "<td>R$" . $precoProd . "</td>";
                 echo "<td>R$" . $precoVenda . "</td>";

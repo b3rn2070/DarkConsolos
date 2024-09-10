@@ -37,7 +37,7 @@ $conn->conectar();
 
         if ($resultado) {
             while ($linha = mysqli_fetch_array($resultado)) {
-                echo "<a href=\"mostrarProduto.php?idProd=" . $linha["idProd"] . "\"><img src='images/" . $linha["fotoProd"] . "'></a>";
+                echo "<a href=\"mostrarProduto.php?idProd=" . $linha["idProd"] . "\"><img width='50%' src='images/" . $linha["fotoProd"] . "'></a>";
             }
         }
 

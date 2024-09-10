@@ -37,7 +37,7 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['
             </form>
 
             <form action='index.php' method='post'><input type='submit' value='voltar'></form>
-        </center>
+
     <?php
     date_default_timezone_set('America/Sao_Paulo');
     if (isset($_POST['data'])) {
@@ -53,6 +53,6 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['
         $relatorio->relatorioProd($data);
     }
 } ?>
-    </body>
-
-    </html>
+    </center>
+</body>
+</html>

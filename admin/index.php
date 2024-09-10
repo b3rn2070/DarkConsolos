@@ -19,7 +19,7 @@ if (!isset($_SESSION["logadoAdm"]) || ($_SESSION["logadoAdm"] == 0)) {
     ?>
     <?php 
         if($_SESSION['cargo'] == 'admin'){
-            ?> <form action="gestaoFunc/index.php" method="post"><input type="submit" value="Gestão de Funcionários"></form> <?php
+            ?> <form action="gestaoProd/index.php" method="post"><input type="submit" value="Gestão de Estoque"></form> <?php
         }
     ?>
     <form action="gestaoProd/index.php" method="post"><input type="submit" value="Gestão de Produtos"></form>

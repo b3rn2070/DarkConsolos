@@ -1,6 +1,7 @@
 <?php
 require_once '../../classes/conexao.php';
 require_once '../../classes/admFunc.php';
+$adm = new AdmFunc();
 session_start();
 
 if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
@@ -29,13 +30,18 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
         <input type="submit" value="Adicionar Funcionário">
     </form>
 
-    <form action="remover.php" method="post">
-        <input type="submit" value="Remover Funcionário">
-    </form>
+    <?php
+        if(isset($_REQUEST['acao'])){
+            $acao = $_REQUEST['acao'];
 
-    <form action="alterar.php" method="post">
-        <input type="submit" value="Alterar Dados de um Funcionário">
-    </form>
+            if($acao == 'remover'){
+                $adm->removerFunc($_REQUEST['idFunc']);
+            }
+        }
+    
+        $adm->listarFunc();
+    ?>
+    
     <form action="../index.php" method="post"><input type="submit" value="voltar"></form>
 </center>
 <?php } ?>
