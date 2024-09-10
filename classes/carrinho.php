@@ -69,7 +69,7 @@ class Carrinho
             while ($linha = mysqli_fetch_array($resultado)) {
                 $qntEstoque = $linha["qnt"];
 
-                if ($linha["promocao"] == "s") {
+                if ($linha["promocao"] == 1) {
                     $preco = $linha["precoProm"];
                 } else {
                     $preco = $linha["precoVenda"];

@@ -24,8 +24,7 @@
             $stmt->bind_param("ssss", $this->nome, $this->email, $this->senha, $this->cpf);
             $stmt->execute();
             $stmt->close();
-            header("Location: login.php");
-            exit;
+            return true;
         }
 
         function verificarEmail(){
@@ -38,13 +37,14 @@
         }
 
         function verificarCpfBD(){
-            $sql = "SELECT * FROM `tbclientes` WHERE cpf = '$this->cpf'";
-            $resultado = $this->conn->execQuery($sql);
-            if($linha = mysqli_fetch_array($resultado)){
-                return false;
-            } else {
-                return true;
-            }
+            $sql = "SELECT * FROM `tbclientes` WHERE cpf = ?";
+            $stmt = $this->conn->getConn()->prepare($sql);
+            $stmt->bind_param("s", $this->cpf);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            $stmt->close();
+    
+            return $resultado->num_rows > 0;
         }
     }
 ?>

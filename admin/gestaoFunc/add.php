@@ -1,26 +1,28 @@
 <?php
 require_once '../../classes/conexao.php';
-require_once '../../classes/adm.php';
+require_once '../../classes/admFunc.php';
 session_start();
 
-// if (!isset($_SESSION['logado'])) { ?>
+if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['cargo'] == 'admin') { ?>
      <script>
-//         const usrResp = confirm("você precisa fazer login");
+         const usrResp = confirm("você precisa fazer login");
 
-//         if (usrResp) {
-//             window.location.href = "../admin/login.php";
-//         }
+         if (usrResp) {
+             window.location.href = "../admin/login.php";
+         }
     </script>
 
-<?php //} else {
+<?php } else if($_SESSION['cargo'] != 'admin') {
+    header("Location: ../admin/index.php");
+} else {
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Add Funcionario</title>
 </head>
 
 <body>
@@ -33,7 +35,7 @@ session_start();
             <select name="cargo">
                 <option value="admin">Administrador</option>
                 <option value="financeiro">Financeiro</option>
-                <option value="logista">Logista</option>
+                <option value="estoquista">Estoquista</option>
             </select>
             <p><input type="submit" value="Adicionar"></p>
         </form>
@@ -106,10 +108,10 @@ session_start();
             $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
             $cargo = $_POST['cargo'];
             
-            $func = new ADM();
+            $func = new admFunc();
             $func->cadastrar($nome, $email, $senha, $cargo);
     } 
-//}
+}
 ?>
 </body>
 </html>

@@ -1,13 +1,13 @@
 <?php 
 require_once 'conexao.php';
 
-class ADM {
+class admFunc {
     private $conn;
 
     function __construct(){
         $this->conn = new Conexao("localhost", "root", "", "dark_consolos");
         $this->conn->conectar();
-        
+
     }
 
     function logar($email, $senha){
@@ -22,8 +22,6 @@ class ADM {
                 $_SESSION["logadoAdm"] = 1;
                 $_SESSION['idFunc'] = $linha['idFunc'];
                 $_SESSION['cargo'] = $linha['cargo'];
-                echo $_SESSION['logadoAdm'];
-                die();
 
                 return true;
                 header("Location: index.php");
@@ -44,5 +42,7 @@ class ADM {
         header("Location: ../login.php");
         exit;
     }
+
+    
 }
 ?>

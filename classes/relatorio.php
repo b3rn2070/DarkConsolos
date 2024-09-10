@@ -30,10 +30,10 @@ class Relatorio
 
 
         $sql = "SELECT pe.idProduto, p.fotoProd, p.nomeProd, pe.precoVenda, SUM(pe.qnt) AS 'qntProduto', SUM(pe.precoVenda) AS 'total'
-                FROM tbPedidos pe
-                JOIN tbProduto p ON v.idProduto = p.idProduto
-                WHERE v.data = '$data'
-                GROUP BY v.idProduto;";
+                FROM tbpedidos pe 
+                JOIN tbproduto p ON pe.idProduto = p.idProd
+                WHERE pe.data = '$data'
+                GROUP BY pe.idProduto;";
 
         $resultado = $this->conn->execQuery($sql);
 
@@ -43,12 +43,12 @@ class Relatorio
                 $nomeProd = $linha['nomeProd'];
                 $precoProd = $linha['precoVenda'];
                 $total = $linha['total'];
-                $qntProduto = $linha['qnt'];
+                $qntProduto = $linha['qntProduto'];
                 $precoVenda = $linha['precoVenda'];
                 $totalVendas += $total;
 
                 echo "<tr>";
-                echo "<td><img height='50%' src='../imagens/" . $foto . "' alt='foto produto'></td>";
+                echo "<td><img height='50%' src='../images/".$foto."' alt='foto produto'></td>";
                 echo "<td>" . $nomeProd . "</td>";
                 echo "<td>R$" . $precoProd . "</td>";
                 echo "<td>R$" . $precoVenda . "</td>";

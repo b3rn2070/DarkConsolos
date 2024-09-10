@@ -23,6 +23,11 @@ $conn->conectar();
                     <form action="alterarConta.php"> <input type="submit" value="conta"> </form>
                 <?php
             }
+
+            if((!isset($_SESSION['logado'])) || ($_SESSION['logado'] == 0) ){
+                ?> <form action="login.php" method="post"> <input type="submit" value="logar"> </form>
+                <?php
+            }
         ?>
         <?php
         // produtos em promocao

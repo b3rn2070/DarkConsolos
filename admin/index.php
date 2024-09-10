@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION["logadoAdm"]) || $_SESSION["logadoAdm"] == 0) {
+if (!isset($_SESSION["logadoAdm"]) || ($_SESSION["logadoAdm"] == 0)) {
     header("Location: login.php");
 } ?>
 <!DOCTYPE html>
@@ -12,7 +12,16 @@ if (!isset($_SESSION["logadoAdm"]) || $_SESSION["logadoAdm"] == 0) {
 </head>
 <body>
     <form action="relatorioVendas.php" method="post"><input type="submit" value="Relatório de Vendas"></form>
-    <form action="gestaoFunc/index.php" method="post"><input type="submit" value="Gestão de Funcionários"></form>
+    <?php 
+        if($_SESSION['cargo'] == 'admin'){
+            ?> <form action="gestaoFunc/index.php" method="post"><input type="submit" value="Gestão de Funcionários"></form> <?php
+        }
+    ?>
+    <?php 
+        if($_SESSION['cargo'] == 'admin'){
+            ?> <form action="gestaoFunc/index.php" method="post"><input type="submit" value="Gestão de Funcionários"></form> <?php
+        }
+    ?>
     <form action="gestaoProd/index.php" method="post"><input type="submit" value="Gestão de Produtos"></form>
     <form action="../sair.php" method="post"><input type="submit" value="deslogar"></form>
     <form action="../index.php" method="post"><input type="submit" value="voltar"></form>
