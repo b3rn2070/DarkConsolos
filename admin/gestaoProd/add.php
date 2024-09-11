@@ -104,7 +104,7 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
                 $qnt = $_POST['qnt'];
                 $prom = $_POST['prom'];
                 $ativo = $_POST['ativo'];
-                $imagem = $_FILES['imagem'];
+                $imagem = $_FILES['fotoProd']['name'];
 
                 $admProd = new AdmProd();
                 $admProd->addProd($nomeProd, $descProd, $precoVenda, $precoProm, $qnt, $prom, $ativo, $imagem);
