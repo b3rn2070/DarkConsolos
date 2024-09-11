@@ -11,18 +11,18 @@
     session_start();
     require_once '../../classes/admFunc.php';
 
-    if(!isset($_SESSION['logado'])) { ?>
+    if(!isset($_SESSION['logado']) || $_SESSION['logadoAdm'] == 0) { ?>
         <script>
         const usrResp = confirm("você precisa fazer login");
         if(usrResp){
-            window.location.href = "../login.php";
+            window.location.href = "../index.php";
         }
         </script>
-    <?php } else if($_SESSION['cargo'] != 'admin') {
+    <?php } else if($_SESSION['cargo'] == 'estoquista' || $_SESSION['cargo'] == 'financeiro') {
         echo "<script>
                 const usrResp3 = confirm('Você não tem permissão para acessar essa página!');
                 if(usrResp3){
-                    window.location.href = '../login.php';
+                    window.location.href = '../index.php';
                 }
             </script>";
      } else { 

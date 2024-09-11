@@ -4,7 +4,7 @@ require_once '../classes/conexao.php';
 require_once '../classes/relatorio.php';
 $conn = new Conexao("localhost", "root", "", "dark_consolos");
 
-if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['cargo'] != 'admin') { ?>
+if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
     <script>
         const usrResp = confirm("você precisa fazer login");
 
@@ -12,7 +12,9 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['
             window.location.href = "login.php";
         }
     </script>
-<?php } else { ?>
+<?php } else if($_SESSION['cargo'] == 'estoquista') { 
+    header("Location: index.php");
+} else { ?>
     <!DOCTYPE html>
     <html lang="pt-br">
 

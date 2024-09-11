@@ -14,14 +14,26 @@ class AdmProd
 
     function addProd($nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo)
     {
-        $sql = "INSERT INTO `tbprodutos`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `precoProm`, `prom`, `ativo`) 
-                VALUES (NULL, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->conn->getConn()->prepare($sql);
-        $stmt->bind_param("sssiddii", $nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo);
-        $stmt->execute();
-        $stmt->close();
-        header("Location: ../index.php");
-        exit;
+        if (isset($_FILES['fotoProd']) && $_FILES['fotoProd']['error'] === UPLOAD_ERR_OK) {
+            $fotoProd = $_FILES['fotoProd'];
+            $nomeFoto = $_FILES['fotoProd']['name'];
+            $caminhoDestino = '../../images/' . basename($nomeFoto);
+
+            if (move_uploaded_file($fotoProd['tmp_name'], $caminhoDestino)) {
+                $sql = "INSERT INTO `tbprodutos`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `precoProm`, `prom`, `ativo`) 
+                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $this->conn->getConn()->prepare($sql);
+                $stmt->bind_param("sssiddii", $nome, $descr, $nomeFoto, $qnt, $precoVenda, $precoProm, $prom, $ativo);
+                $stmt->execute();
+                $stmt->close();
+                header("Location: ../index.php");
+                exit;
+            } else {
+                echo "Erro ao mover a foto para o servidor.";
+            }
+        } else {
+            echo "Erro no upload da imagem.";
+        }
     }
 
     function listarProd()
@@ -44,23 +56,23 @@ class AdmProd
         echo "</thead>";
         echo "<tbody align='center'>";
 
-        $sql = "SELECT * FROM `tbprodutos`;";
+        $sql = "SELECT * FROM `tbproduto`;";
         $resultado = $this->conn->execQuery($sql);
 
         while ($linha = mysqli_fetch_array($resultado)) {
             $idProd = $linha['idProd'];
-            $dados = "idProd=" . $idProd . "&nomeProd=" . $linha['nomeProd'] . "&descr=" . $linha['descr'] . "&foto=" . $linha['fotoProd'] . "&qnt=" . $linha['qnt'] . "&promocao=" . $linha['promocao'] . "&precoVenda=" . $linha['precoVenda'] . "&precoProm=" . $linha['precoProm'] . "&ativo=" . $linha['ativo'];
+            $dados = "idProd=" . $idProd . "&nomeProd=" . $linha['nomeProd'] . "&descr=" . $linha['descrProd'] . "&foto=" . $linha['fotoProd'] . "&qnt=" . $linha['qnt'] . "&promocao=" . $linha['promocao'] . "&precoVenda=" . $linha['precoVenda'] . "&precoProm=" . $linha['precoProm'] . "&ativo=" . $linha['ativo'];
 
             echo "<tr>";
-            echo "<th>" . $idProd . "</th>";
-            echo "<th>" . "<img src='../../images/" . $linha['nomeProd'] . "</th>";
-            echo "<th>" . $linha['nomeProd'] . "</th>";
-            echo "<th>" . $linha['descr'] . "</th>";
-            echo "<th>" . $linha['precoVenda'] . "</th>";
-            echo "<th>" . $linha['precoProm'] . "</th>";
-            echo "<th>" . $linha['qnt'] . "</th>";
-            echo "<th>" . $linha['promocao'] . "</th>";
-            echo "<th>" . $linha['ativo'] . "</th>";
+                    echo "<th>" . $idProd . "</th>";
+                    echo "<th><img width='40%' src='../../images/" . $linha['fotoProd'] . "' alt='Produto'></th>";
+                    echo "<th>" . $linha['nomeProd'] . "</th>";
+                    echo "<th>" . $linha['descrProd'] . "</th>";
+                    echo "<th>" . $linha['precoVenda'] . "</th>";
+                    echo "<th>" . $linha['precoProm'] . "</th>";
+                    echo "<th>" . $linha['qnt'] . "</th>";
+                    echo "<th>" . $linha['promocao'] . "</th>";
+                    echo "<th>" . $linha['ativo'] . "</th>";
             echo "<th><form action='?$dados&acao=remover' method='post'> <input type='submit' name='remover' value='Remover'></form></th>";
             echo "<th><form action='alterar.php?$dados&acao=alterar' method='post'> <input type='submit' name='alterar' value='Alterar'></form></th>";
             echo "</tr>";
@@ -70,17 +82,20 @@ class AdmProd
         echo "</table>";
     }
 
-    function removerFunc($id)
+    function removerProd($id)
     {
-        $sql = "DELETE FROM `tbfuncionarios` WHERE `idFunc` = $id;";
+        $sql = "DELETE FROM `tbproduto` WHERE `idProd` = $id;";
         $this->conn->execQuery($sql);
     }
 
-    function atualizarFunc($id, $nome, $email, $senha, $ativo, $cargo)
+    function atualizarProd($id, $nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo)
     {
-        $sql = "UPDATE `tbfuncionarios` SET `nomeFunc`='$nome',`emailFunc`='$email',`senhaFunc`='$senha',`ativo`=$ativo,`cargo`='$cargo' WHERE `idFunc` =  $id;";
+        $sql = "UPDATE `tbproduto` 
+                SET `nomeProd`='$nome',`descrProd`='$descr',`fotoProd`='$fotoProd',`qnt`=$qnt,
+                    `precoVenda`=$precoVenda,`promocao`=$prom,`precoProm`=$precoProm,`ativo`='$ativo
+                WHERE `idProd` =  $id;";
+        
         $resultado = $this->conn->execQuery($sql);
-
         if ($resultado == true) {
             return true;
         } else {
@@ -88,3 +103,5 @@ class AdmProd
         }
     }
 }
+?>
+

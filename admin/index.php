@@ -22,7 +22,6 @@ if (!isset($_SESSION["logadoAdm"]) || ($_SESSION["logadoAdm"] == 0)) {
             ?> <form action="gestaoProd/index.php" method="post"><input type="submit" value="Gestão de Estoque"></form> <?php
         }
     ?>
-    <form action="gestaoProd/index.php" method="post"><input type="submit" value="Gestão de Produtos"></form>
     <form action="../sair.php" method="post"><input type="submit" value="deslogar"></form>
     <form action="../index.php" method="post"><input type="submit" value="voltar"></form>
     

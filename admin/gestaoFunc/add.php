@@ -3,16 +3,16 @@ require_once '../../classes/conexao.php';
 require_once '../../classes/admFunc.php';
 session_start();
 
-if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['cargo'] != 'admin') { ?>
+if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
      <script>
-         const usrResp = confirm("você precisa fazer login ou você não possui cargo");
+         const usrResp = confirm("você precisa fazer login");
 
          if (usrResp) {
              window.location.href = "../login.php";
          }
     </script>
 
-<?php } else if($_SESSION['cargo'] != 'admin') {
+<?php } else if($_SESSION['cargo'] == 'financeiro' || $_SESSION['cargo'] == 'estoquista') {
     header("Location: ../../admin/index.php");
 } else {
 ?>

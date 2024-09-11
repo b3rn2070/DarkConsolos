@@ -13,8 +13,8 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
          }
     </script>
 
-<?php } else if($_SESSION['cargo'] != 'admin') {
-    header("Location: ../admin/index.php");
+<?php } else if($_SESSION['cargo'] == 'financeiro' || $_SESSION['cargo'] == 'estoquista') {
+    header("Location: ../index.php");
 } else {
 ?>
 <!DOCTYPE html>
