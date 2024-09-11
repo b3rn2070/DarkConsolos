@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once '../../classes/conexao.php';
 
 class AdmFunc
 {
@@ -86,25 +86,18 @@ class AdmFunc
     function removerFunc($id)
     {
         $sql = "DELETE FROM `tbfuncionarios` WHERE `idFunc` = $id;";
+        $this->conn->execQuery($sql);
+    }
+
+    function atualizarFunc($id, $nome, $email, $senha, $ativo, $cargo)
+    {
+        $sql = "UPDATE `tbfuncionarios` SET `nomeFunc`='$nome',`emailFunc`='$email',`senhaFunc`='$senha',`ativo`=$ativo,`cargo`='$cargo' WHERE `idFunc` =  $id;";
         $resultado = $this->conn->execQuery($sql);
-        
-        if($resultado){
+
+        if ($resultado == true) {
             return true;
         } else {
             return false;
         }
     }
-
-    function atualziarFunc($nome, $email, $senha, $ativo, $cargo){
-        $sql = "UPDATE `tbfuncionarios` SET `nomeFunc`='$nome',`emailFunc`='$email',`senhaFunc`='$senha',`ativo`='$ativo',`cargo`='$cargo' WHERE 1";
-        $resultado = $this->conn->execQuery($sql);
-
-        if($resultado){
-            return true;
-        } else {
-            return false;
-        }
 }
-}
-?>
-

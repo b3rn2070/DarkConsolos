@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,15 +9,23 @@
 <body>
 <?php 
     session_start();
+    require_once '../../classes/admFunc.php';
+
     if(!isset($_SESSION['logado'])) { ?>
         <script>
         const usrResp = confirm("você precisa fazer login");
         if(usrResp){
-            window.location.href = "*/admin/login.php";
+            window.location.href = "../login.php";
         }
         </script>
-    <?php } 
-    else{ 
+    <?php } else if($_SESSION['cargo'] != 'admin') {
+        echo "<script>
+                const usrResp3 = confirm('Você não tem permissão para acessar essa página!');
+                if(usrResp3){
+                    window.location.href = '../login.php';
+                }
+            </script>";
+     } else { 
             if(isset($_REQUEST['idFunc'])){
                 $idFunc = $_REQUEST['idFunc']; 
                 echo "Informações Atuais<br>";
@@ -27,7 +36,7 @@
                 echo "Altere as informações abaixo:<br>";
             }
         ?>
-        <form action="acaoAlterar.php" method="post" onsubmit="verificarDados()">
+        <form action="" method="post" onsubmit="verificarDados()">
             <input type = "hidden" name="idFunc" value="<?php echo $idFunc;?>">
             <p>Nome:<input type='text' name="nomeNovo" placeholder="Nome"  value="<?php if(isset($_REQUEST['nomeFunc'])) {echo $_REQUEST['nomeFunc'];} ?>" id="input-email" required></p>
             <p>Email:<input type='text' name="emailNovo" placeholder='Email' value="<?php if(isset($_REQUEST['emailFunc'])) {echo $_REQUEST['emailFunc'];} ?>" id="input-email" required></p>
@@ -79,6 +88,11 @@
                     };
                 } else if (!validarSenha(senha)) {
                     confirm("A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número!");
+
+                    document.getElementById("input-senha").focus();
+                    window.onsubmit = function() {
+                        return false;
+                    }
                 } else if (nome.length < 3) {
                     confirm("O nome deve ter no mínimo 3 caracteres!");
 
@@ -107,7 +121,30 @@
         </script>
 
        <?php 
+        if(isset($_REQUEST['nomeNovo']) && isset($_REQUEST['emailNovo']) && isset($_REQUEST['senhaNovo']) && isset($_REQUEST['cargoNovo']) && isset($_REQUEST['ativoNovo'])){
+            $id = $_REQUEST['idFunc'];
+            $nome = $_REQUEST['nomeNovo'];
+            $email = $_REQUEST['emailNovo'];
+            $senha = $_REQUEST['senhaNovo'];
+            $senha = password_hash($senha, PASSWORD_BCRYPT);
+            $cargo = $_REQUEST['cargoNovo'];
+            $ativo = $_REQUEST['ativoNovo'];
+            $idFunc = $_REQUEST['idFunc'];
 
+            $admFunc = new AdmFunc();
+            $resultado = $admFunc->atualizarFunc($id, $nome, $email, $senha, $ativo, $cargo);
+
+            if($resultado == true){
+                ?> <script>
+                        const usrResp2 = confirm('Alteração realizada com sucesso!');
+                        if(usrResp2){
+                            window.location.href = 'index.php';
+                        }
+                    </script> <?php
+            } else {
+                echo "<script>confirm('Erro ao alterar!');</script>";
+            }
+        }
 }
        ?>
 </body>

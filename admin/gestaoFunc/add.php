@@ -3,12 +3,12 @@ require_once '../../classes/conexao.php';
 require_once '../../classes/admFunc.php';
 session_start();
 
-if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['cargo'] == 'admin') { ?>
+if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['cargo'] != 'admin') { ?>
      <script>
-         const usrResp = confirm("você precisa fazer login");
+         const usrResp = confirm("você precisa fazer login ou você não possui cargo");
 
          if (usrResp) {
-             window.location.href = "../admin/login.php";
+             window.location.href = "../login.php";
          }
     </script>
 
@@ -73,6 +73,11 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0 || $_SESSION['
                     };
                 } else if (!validarSenha(senha)) {
                     confirm("A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número!");
+
+                    document.getElementById("input-senha").focus();
+                    window.onsubmit = function() {
+                        return false;
+                    };
                 } else if (nome.length < 3) {
                     confirm("O nome deve ter no mínimo 3 caracteres!");
 
