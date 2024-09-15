@@ -1,5 +1,5 @@
 <?php
-require_once '../../classes/conexao.php';
+require_once 'conexao.php';
 
 class AdmProd
 {
@@ -14,16 +14,18 @@ class AdmProd
 
     function addProd($nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo)
     {
-        if (isset($_FILES['fotoProd']) && $_FILES['fotoProd']['error'] === UPLOAD_ERR_OK) {
-            $fotoProd = $_FILES['fotoProd'];
-            $nomeFoto = $_FILES['fotoProd']['name'];
-            $caminhoDestino = '../../images/' . basename($nomeFoto);
+        $diretorioDestino = '../../images/';
+        $fotoProd = $_FILES['fotoProd']['name'];
+        $caminhoTemporario = $_FILES['fotoProd']['tmp_name'];
+        $caminhoDestino = $diretorioDestino . basename($fotoProd);
 
-            if (move_uploaded_file($fotoProd['tmp_name'], $caminhoDestino)) {
+        if (isset($_FILES['fotoProd']) && $_FILES['fotoProd']['error'] === UPLOAD_ERR_OK) {
+
+            if (move_uploaded_file($caminhoTemporario, $caminhoDestino)) {
                 $sql = "INSERT INTO `tbprodutos`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `precoProm`, `prom`, `ativo`) 
                         VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->conn->getConn()->prepare($sql);
-                $stmt->bind_param("sssiddii", $nome, $descr, $nomeFoto, $qnt, $precoVenda, $precoProm, $prom, $ativo);
+                $stmt->bind_param("sssiddii", $nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo);
                 $stmt->execute();
                 $stmt->close();
                 header("Location: ../index.php");
@@ -64,15 +66,15 @@ class AdmProd
             $dados = "idProd=" . $idProd . "&nomeProd=" . $linha['nomeProd'] . "&descr=" . $linha['descrProd'] . "&foto=" . $linha['fotoProd'] . "&qnt=" . $linha['qnt'] . "&promocao=" . $linha['promocao'] . "&precoVenda=" . $linha['precoVenda'] . "&precoProm=" . $linha['precoProm'] . "&ativo=" . $linha['ativo'];
 
             echo "<tr>";
-                    echo "<th>" . $idProd . "</th>";
-                    echo "<th><img width='40%' src='../../images/" . $linha['fotoProd'] . "' alt='Produto'></th>";
-                    echo "<th>" . $linha['nomeProd'] . "</th>";
-                    echo "<th>" . $linha['descrProd'] . "</th>";
-                    echo "<th>" . $linha['precoVenda'] . "</th>";
-                    echo "<th>" . $linha['precoProm'] . "</th>";
-                    echo "<th>" . $linha['qnt'] . "</th>";
-                    echo "<th>" . $linha['promocao'] . "</th>";
-                    echo "<th>" . $linha['ativo'] . "</th>";
+            echo "<th>" . $idProd . "</th>";
+            echo "<th><img width='40%' src='../../images/" . $linha['fotoProd'] . "' alt='Produto'></th>";
+            echo "<th>" . $linha['nomeProd'] . "</th>";
+            echo "<th>" . $linha['descrProd'] . "</th>";
+            echo "<th>" . $linha['precoVenda'] . "</th>";
+            echo "<th>" . $linha['precoProm'] . "</th>";
+            echo "<th>" . $linha['qnt'] . "</th>";
+            echo "<th>" . $linha['promocao'] . "</th>";
+            echo "<th>" . $linha['ativo'] . "</th>";
             echo "<th><form action='?$dados&acao=remover' method='post'> <input type='submit' name='remover' value='Remover'></form></th>";
             echo "<th><form action='alterar.php?$dados&acao=alterar' method='post'> <input type='submit' name='alterar' value='Alterar'></form></th>";
             echo "</tr>";
@@ -94,7 +96,7 @@ class AdmProd
                 SET `nomeProd`='$nome',`descrProd`='$descr',`fotoProd`='$fotoProd',`qnt`=$qnt,
                     `precoVenda`=$precoVenda,`promocao`=$prom,`precoProm`=$precoProm,`ativo`='$ativo
                 WHERE `idProd` =  $id;";
-        
+
         $resultado = $this->conn->execQuery($sql);
         if ($resultado == true) {
             return true;
@@ -103,5 +105,3 @@ class AdmProd
         }
     }
 }
-?>
-
