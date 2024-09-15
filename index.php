@@ -49,7 +49,7 @@ $conn->conectar();
         $sql = "SELECT * FROM `tbproduto` WHERE `ativo` = 1 AND `promocao` = 0 AND `qnt` > 0;";
         $resultado = $conn->execQuery($sql);
         while ($linha = mysqli_fetch_array($resultado)) {
-            echo "<a href=\"mostrarProduto.php?idProd=" . $linha["idProd"] . "\"><img src='images/" . $linha["fotoProd"] . "'></a>";
+            echo "<a href=\"mostrarProduto.php?idProd=" . $linha["idProd"] . "\"><img width='50%' src='images/" . $linha["fotoProd"] . "'></a>";
         }
         $conn->desconectar();
         ?>

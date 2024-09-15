@@ -14,6 +14,7 @@ class AdmProd
 
     function addProd($nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo)
     {
+
         $diretorioDestino = '../../images/';
         $fotoProd = $_FILES['fotoProd']['name'];
         $caminhoTemporario = $_FILES['fotoProd']['tmp_name'];
@@ -22,14 +23,16 @@ class AdmProd
         if (isset($_FILES['fotoProd']) && $_FILES['fotoProd']['error'] === UPLOAD_ERR_OK) {
 
             if (move_uploaded_file($caminhoTemporario, $caminhoDestino)) {
-                $sql = "INSERT INTO `tbprodutos`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `precoProm`, `prom`, `ativo`) 
-                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmt = $this->conn->getConn()->prepare($sql);
-                $stmt->bind_param("sssiddii", $nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo);
-                $stmt->execute();
-                $stmt->close();
-                header("Location: ../index.php");
-                exit;
+                $sql = "INSERT INTO `tbproduto`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `promocao`, `precoProm`, `ativo`) 
+                        VALUES (NULL, '$nome', '$descr', '$fotoProd', $qnt, $precoVenda, $precoProm, $prom, $ativo)";
+
+                $resultado = $this->conn->execQuery($sql);
+
+                if ($resultado) {
+                    echo "<script> confirm('Produto adicionado com sucesso')</script>";
+                } else {
+                    echo "<script> confirm('Erro ao adicionar o produto')</script>";
+                }
             } else {
                 echo "Erro ao mover a foto para o servidor.";
             }
@@ -88,13 +91,13 @@ class AdmProd
     {
         $sql = "DELETE FROM `tbproduto` WHERE `idProd` = $id;";
         $this->conn->execQuery($sql);
+        unlink("../../images/" . $_REQUEST['foto']);
     }
 
-    function atualizarProd($id, $nome, $descr, $fotoProd, $qnt, $precoVenda, $precoProm, $prom, $ativo)
+    function atualizarProd($id, $nome, $descr, $qnt, $precoVenda, $precoProm, $prom, $ativo)
     {
         $sql = "UPDATE `tbproduto` 
-                SET `nomeProd`='$nome',`descrProd`='$descr',`fotoProd`='$fotoProd',`qnt`=$qnt,
-                    `precoVenda`=$precoVenda,`promocao`=$prom,`precoProm`=$precoProm,`ativo`='$ativo
+                SET `nomeProd`='$nome', `descrProd`='$descr', `qnt`=$qnt, `precoVenda`=$precoVenda, `promocao`=$prom, `precoProm`=$precoProm, `ativo`=$ativo
                 WHERE `idProd` =  $id;";
 
         $resultado = $this->conn->execQuery($sql);

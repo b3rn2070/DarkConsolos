@@ -50,7 +50,7 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
                 <p></p>
                 <p><input type="submit" value="Adicionar"></p>
             </form>
-            <form action="../index.php" method="post"><input type="submit" value="voltar"></form>
+            <form action="index.php" method="post"><input type="submit" value="voltar"></form>
 
             <script>
                 function validarImagem() {
@@ -104,10 +104,10 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
                 $qnt = $_POST['qnt'];
                 $prom = $_POST['prom'];
                 $ativo = $_POST['ativo'];
-                $imagem = $_FILES['imagem'];
+                $imagem = $_FILES['fotoProd'];
 
                 $admProd = new AdmProd();
-                $admProd->addProd($nomeProd, $descProd, $precoVenda, $precoProm, $qnt, $prom, $ativo, $imagem);
+                $admProd->addProd($nomeProd, $descProd, $imagem, $qnt, $precoVenda, $precoProm, $prom, $ativo);
             }
         ?>
     </body>
