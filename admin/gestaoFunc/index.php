@@ -9,7 +9,7 @@ if (!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
          const usrResp = confirm("você precisa fazer login");
 
          if (usrResp) {
-             window.location.href = "../admin/login.php";
+             window.location.href = "../login.php";
          }
     </script>
 

@@ -24,7 +24,7 @@ class AdmProd
 
             if (move_uploaded_file($caminhoTemporario, $caminhoDestino)) {
                 $sql = "INSERT INTO `tbproduto`(`idProd`, `nomeProd`, `descrProd`, `fotoProd`, `qnt`, `precoVenda`, `promocao`, `precoProm`, `ativo`) 
-                        VALUES (NULL, '$nome', '$descr', '$fotoProd', $qnt, $precoVenda, $precoProm, $prom, $ativo)";
+                        VALUES (NULL, '$nome', '$descr', '$fotoProd', $qnt, $precoVenda, $prom, $precoProm, $ativo)";
 
                 $resultado = $this->conn->execQuery($sql);
 

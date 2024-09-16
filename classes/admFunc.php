@@ -41,7 +41,6 @@ class AdmFunc
         $stmt->bind_param("ssss", $nome, $email, $senha, $cargo);
         $stmt->execute();
         $stmt->close();
-        header("Location: ../login.php");
         exit;
     }
 

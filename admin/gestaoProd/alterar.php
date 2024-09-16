@@ -11,7 +11,7 @@
     session_start();
     require_once '../../classes/admProd.php';
 
-    if(!isset($_SESSION['logado']) || $_SESSION['logadoAdm'] == 0) { ?>
+    if(!isset($_SESSION['logadoAdm']) || $_SESSION['logadoAdm'] == 0) { ?>
         <script>
         const usrResp = confirm("você precisa fazer login");
         if(usrResp){
